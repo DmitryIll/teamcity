@@ -7,9 +7,39 @@
 
 2. Дождитесь запуска teamcity, выполните первоначальную настройку.
 3. Создайте ещё один инстанс (2CPU4RAM) на основе образа `jetbrains/teamcity-agent`. Пропишите к нему переменную окружения `SERVER_URL: "http://<teamcity_url>:8111"`.
+
+Агент создал рядом в отдельном контейнере на той же ВМ где и сам Teamcity. Для учебных целей - считаю допустимо.
+
 4. Авторизуйте агент.
+авторизовал.
+
+![alt text](image.png)
+
 5. Сделайте fork [репозитория](https://github.com/aragastmatb/example-teamcity).
+
+Скопировал все файлы в свой репозиторий и там уже с ними работаю.
+
 6. Создайте VM (2CPU4RAM) и запустите [playbook](./infrastructure).
+
+ВМ создал, при запуске плейбука:
+
+```
+root@ansible:~/teamcity/infrastructure# ansible-playbook -i inventory/cicd/hosts.yml site.yml
+```
+получаю ошибку:
+
+```
+TASK [Create Nexus group] *********************************************************************
+fatal: [nexus]: FAILED! => {"msg": "The task includes an option with an undefined variable. The error was: 'nexus_user_group' is undefined. 'nexus_user_group' is undefined\n\nThe error appears to be in '/root/teamcity/infrastructure/site.yml': line 5, column 7, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n  pre_tasks:\n    - name: Create Nexus group\n      ^ here\n"}
+```
+
+![alt text](image-1.png)
+
+Не понял в чем проблема? Ведь есть файл с определенными переменными. Что не так?
+сами файлы см. в репозитории.
+
+Ансибл - использую на отдельной ВМ в облаке.
+
 
 ## Основная часть
 
