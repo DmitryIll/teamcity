@@ -68,8 +68,8 @@ vm=[
 
 # ----------- vm2 ---------------------------------------------------------------
       {name = "nexus"
-      image = "fd82nvvtllmimo92uoul"   # ubuntu 22.04
-      #image = "fd8bem6begolined4qjs"   # centos 7 login
+      #image = "fd82nvvtllmimo92uoul"   # ubuntu 22.04
+      image = "fd8bem6begolined4qjs"   # centos 7 login
       cpu = 2
       core_fraction = 100
       ram = 4
