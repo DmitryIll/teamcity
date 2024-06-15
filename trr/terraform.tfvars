@@ -20,7 +20,7 @@ vm=[
         "sudo apt-add-repository -y ppa:ansible/ansible",
         "sudo apt update",
         "sudo apt install -y ansible",
-        "git clone "
+        "git clone https://github.com/DmitryIll/teamcity.git",
       ]
       },
 # ----------- vm1 ---------------------------------------------------------------
