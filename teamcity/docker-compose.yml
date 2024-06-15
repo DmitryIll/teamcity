@@ -1,0 +1,26 @@
+    volumes:
+#      - ./data_dir:/data/teamcity_server/datadir
+#      - ./teamcity-server-logs:/opt/teamcity/logs
+      - /dockervol/data:/data/teamcity_server/datadir
+      - /dockervol/logs:/opt/teamcity/logs
+    depends_on:
+      - db
+
+#  teamcity-agent-1:
+#    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
+#    privileged: true
+#    volumes:
+##      - ./agents/agent-1/conf:/data/teamcity_agent/conf
+#      - /dockervol/agent:/data/teamcity_agent/conf
+#    environment:
+#      - DOCKER_IN_DOCKER=start
+##      - SERVER_URL="http://teamcity:8111"
+#      - SERVER_URL="http://158.160.46.196:80"
+
+  teamcity-agent-2:
+    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
+    privileged: true
+    volumes:
+      - ./agents/agent-2/conf:/data/teamcity_agent/conf
+    environment:
+      - DOCKER_IN_DOCKER=start
