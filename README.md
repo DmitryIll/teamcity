@@ -205,11 +205,42 @@ object Build : BuildType({
 
 9. Создайте отдельную ветку `feature/add_reply` в репозитории.
 
-
+![alt text](image-17.png)
 
 10. Напишите новый метод для класса Welcomer: метод должен возвращать произвольную реплику, содержащую слово `hunter`.
+
+Добавил строчки:
+
+```
+	public String sayHunter() {
+		return "Good hunter!";
+	}	
+```
+в
+
+![alt text](image-18.png)
+
+
 11. Дополните тест для нового метода на поиск слова `hunter` в новой реплике.
+
+Добавил тест:
+
+```
+
+	@Test
+	public void welcomerSaysHunter() {
+		assertThat(welcomer.sayHunter(), containsString("hunter"));
+	}
+```
+в
+
+![alt text](image-19.png)
+
+
 12. Сделайте push всех изменений в новую ветку репозитория.
+
+
+
 13. Убедитесь, что сборка самостоятельно запустилась, тесты прошли успешно.
 14. Внесите изменения из произвольной ветки `feature/add_reply` в `master` через `Merge`.
 15. Убедитесь, что нет собранного артефакта в сборке по ветке `master`.
