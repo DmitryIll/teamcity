@@ -15,7 +15,7 @@ public class WelcomerTest {
 	}
 
 	@Test
-	public void welcomerSaysHunter() {
+	public void welcomerSaysHunter2() {
 		assertThat(welcomer.sayHunter(), containsString("hunter"));
 	}
 

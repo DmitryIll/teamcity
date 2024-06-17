@@ -239,9 +239,49 @@ object Build : BuildType({
 
 12. Сделайте push всех изменений в новую ветку репозитория.
 
-
+Сделал
 
 13. Убедитесь, что сборка самостоятельно запустилась, тесты прошли успешно.
+
+Закончилась ошибкой:
+
+![alt text](image-20.png)
+
+![alt text](image-21.png)
+
+![alt text](image-22.png)
+
+```
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile (default-testCompile) on project plaindoll: Compilation failure
+09:45:50
+  [ERROR] /opt/buildagent/work/dda6acfd9725da60/teamcity/example-teamcity/src/test/java/plaindoll/WelcomerTest.java:[27,21] method welcomerSaysHunter() is already defined in class plaindoll.WelcomerTest
+09:45:50
+  [ERROR] -> [Help 1]
+09:45:50
+  [ERROR]
+09:45:50
+  [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+09:45:50
+  [ERROR] Re-run Maven using the -X switch to enable full debug logging.
+09:45:50
+  [ERROR]
+09:45:50
+  [ERROR] For more information about the errors and possible solutions, please read the following articles:
+09:45:50
+  [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+09:45:50
+  Process exited with code 1
+```
+
+Тогда исправил на :
+
+```
+	@Test
+	public void welcomerSaysHunter2() {
+		assertThat(welcomer.sayHunter(), containsString("hunter"));
+	}
+```
+
 14. Внесите изменения из произвольной ветки `feature/add_reply` в `master` через `Merge`.
 15. Убедитесь, что нет собранного артефакта в сборке по ветке `master`.
 16. Настройте конфигурацию так, чтобы она собирала `.jar` в артефакты сборки.
