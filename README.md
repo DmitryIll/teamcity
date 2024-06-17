@@ -152,7 +152,61 @@ Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy (
 
 
 8. Мигрируйте `build configuration` в репозиторий.
+
+Не очень понял что тут и как нужно сделать?
+Видимо нуно конфигурацию билда сохранить как код в репозиторий.
+Получилась такая конфигурация:
+
+```
+package _Self.buildTypes
+
+import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.maven
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
+
+object Build : BuildType({
+    name = "Build"
+
+    vcs {
+        root(HttpsGithubComDmitryIllTeamcityGitRefsHeadsMain)
+    }
+    steps {
+        maven {
+            name = "Not main - test"
+
+            conditions {
+                doesNotContain("teamcity.build.branch", "main")
+            }
+            goals = "clean test"
+            pomLocation = "teamcity/example-teamcity/pom.xml"
+            runnerArgs = "-Dmaven.test.failure.ignore=true"
+            userSettingsSelection = "settings.xml"
+        }
+        maven {
+            name = "main - depoy"
+
+            conditions {
+                contains("teamcity.build.branch", "main")
+            }
+            goals = "clean deploy"
+            pomLocation = "teamcity/example-teamcity/pom.xml"
+            runnerArgs = "-Dmaven.test.failure.ignore=true"
+            userSettingsSelection = "settings.xml"
+        }
+    }
+    triggers {
+        vcs {
+        }
+    }
+})
+
+```
+![alt text](image-16.png)
+
 9. Создайте отдельную ветку `feature/add_reply` в репозитории.
+
+
+
 10. Напишите новый метод для класса Welcomer: метод должен возвращать произвольную реплику, содержащую слово `hunter`.
 11. Дополните тест для нового метода на поиск слова `hunter` в новой реплике.
 12. Сделайте push всех изменений в новую ветку репозитория.
