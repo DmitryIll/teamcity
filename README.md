@@ -297,17 +297,96 @@ object Build : BuildType({
 	<version>0.1.0</version>
 ```
 
-Еще раз делаю пуш:
+Еще раз делаю мердж в main:
 
+![alt text](image-25.png)
 
 
 15. Убедитесь, что нет собранного артефакта в сборке по ветке `master`.
 
+На данный момент такие артефакты:
+
+![alt text](image-26.png)
+
+Новой версии еще нет.
+
+Теперь делаю пуш в main - запустилась сборка:
+
+![alt text](image-27.png)
+
+сборка прошла успешно:
+
+![alt text](image-28.png)
+
+![alt text](image-29.png)
 
 16. Настройте конфигурацию так, чтобы она собирала `.jar` в артефакты сборки.
+
+Новый артефакт появился:
+
+![alt text](image-30.png)
+
+
 17. Проведите повторную сборку мастера, убедитесь, что сбора прошла успешно и артефакты собраны.
+
+Уже сразу все появилось - т.к. сразу изменил версию.
+
 18. Проверьте, что конфигурация в репозитории содержит все настройки конфигурации из teamcity.
+
+Тут не понял что именно нужно сделать. 
+Создал  файл в репозитории:
+teamcity\buildconfig
+
+и туда положил конфиг билда:
+
+```
+package _Self.buildTypes
+
+import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.maven
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
+
+object Build : BuildType({
+    name = "Build"
+
+    vcs {
+        root(HttpsGithubComDmitryIllTeamcityGitRefsHeadsMain)
+    }
+    steps {
+        maven {
+            name = "Not main - test"
+
+            conditions {
+                doesNotContain("teamcity.build.branch", "main")
+            }
+            goals = "clean test"
+            pomLocation = "teamcity/example-teamcity/pom.xml"
+            runnerArgs = "-Dmaven.test.failure.ignore=true"
+            userSettingsSelection = "settings.xml"
+        }
+        maven {
+            name = "main - depoy"
+
+            conditions {
+                contains("teamcity.build.branch", "main")
+            }
+            goals = "clean deploy"
+            pomLocation = "teamcity/example-teamcity/pom.xml"
+            runnerArgs = "-Dmaven.test.failure.ignore=true"
+            userSettingsSelection = "settings.xml"
+        }
+    }
+    triggers {
+        vcs {
+        }
+    }
+})
+
+```
+
 19. В ответе пришлите ссылку на репозиторий.
+
+https://github.com/DmitryIll/teamcity.git
 
 ---
 
